@@ -8,16 +8,12 @@ const sp = new Spinner({
 });
 
 program
-    .version('0.1.0')
+    .name('s2dood')
+    .version('0.2.0')
     .command('dump <in-objects> <out-galaxy>')
-    .option('-w', 'overwrite output file, if exists')
     .action((objectsPath: string, exportPath: string, cmd: program.Command) => {
         if (!fs.existsSync(objectsPath)) {
             console.error(`objects file doesn't exit`);
-            return;
-        }
-        if (fs.existsSync(exportPath) && !cmd.opts()['W']) {
-            console.error(`export file already exist. use -w to overwrite`);
             return;
         }
         sp.start();
@@ -40,10 +36,3 @@ program.on('command:*', () => {
 })
 
 program.parse(process.argv);
-
-// interface AppOptions {
-//     objects?: string;
-//     exportGalaxy?: string;
-// };
-
-// console.log(program.opts());
