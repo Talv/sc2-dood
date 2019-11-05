@@ -2,21 +2,12 @@
 
 **StarCraft II terrain `Objects` file parser and exporter.**
 
-In its current stage it has one purpose: export doodads from a given map, then import them back in a format that allows to query it from triggers. How it will be used and in what way is up to the user.
+In its current stage it has one purpose: export doodads from a given map(s), then plug them back in a format that allows to query it from triggers. How it will be used and in what way is up to the user.
 
-### F.A.Q.
+* ✓ Can export data as `GalaxyScript` or `UserData`-like XML.
+* ✓ Can merge `Objects` from multiple `SC2Map`s
 
->Is it compatible with Trigger Editor?
-
-Yes.
-
->Why doesn't it export data as an `UserData.xml` file?
-
-Because `UserData` API is simply slow. Any performance sensitive use-case of this tool would likely require transfering all entries from `UserData` to galaxy variables. This vastly improves the performance, by taking advantage of static linking within Galaxy. We're avoiding overhead that would come from using `UserData` API to query data dynamically.
-
-## How to use it
-
-### Installation
+## Installation
 
 **Windows**
 
@@ -28,31 +19,25 @@ Download portable binary from [releases](https://github.com/Talv/sc2-dood/releas
 npm install -g git+https://git@github.com/Talv/sc2-dood.git
 ```
 
-### Usage
+## Usage
 
 It's command line tool.
 
 ```
-Usage: s2dood [options] [command]
+Usage: s2dood [options]
 
 Options:
-
-  -V, --version                   output the version number
-  -h, --help                      output usage information
-
-Commands:
-
-  dump <in-objects> <out-galaxy>
+  -V, --version               output the version number
+  -s, --src-map <path>        source SC2Map(s) (default: [])
+  -o, --out-map <path>        target SC2Map
+  -O, --out-file <path>       output filename
+  -F, --format-type <format>  output format: galaxy or xml (User Data)
+  -h, --help                  output usage information
 ```
-
-### Integration with SC2Map
-
-1. Save the map as `.SC2Components`
-2. Run command `tdood.exe dump map.SC2Map\Objects map.SC2Map\objs-doodads.galaxy`
 
 ## Example map
 
-Download [tdood-example1](https://github.com/Talv/sc2-dood/releases/download/v0.2.0/tdood-example1.zip)
+Download [tdood-example1](https://github.com/Talv/sc2-dood/releases/download/v0.3.0/tdood-example1.zip)
 
 - Press <kbd>Z</kbd> to clear all preplaced doodads.
 - Press <kbd>X</kbd> recreate actors respecting all properties from previously dumped data
@@ -60,7 +45,69 @@ Download [tdood-example1](https://github.com/Talv/sc2-dood/releases/download/v0.
 
 ---
 
-## Explanation: Galaxy script
+### Format: XML User Data
+
+> `s2dood  -s "src1.SC2Map" -s "src2.SC2Map" -o "tdood-example2.SC2Map" -F xml`
+
+Under default settings it will write to `Base.SC2Data/Doodads.xml`. Each source map will have its own `CUser` record. Example:
+
+```xml
+    <CUser id="d_src1">
+        <Fields Id="actorLink" Type="GameLink" GameLinkType="Actor" EditorColumn="1"/>
+        <Fields Id="flags" Type="Int"/>
+        <Fields Id="variation" Type="Int" EditorColumn="2"/>
+        <Fields Id="posX" Type="Fixed" EditorColumn="10"/>
+        <Fields Id="posY" Type="Fixed" EditorColumn="11"/>
+        <Fields Id="posZ" Type="Fixed" EditorColumn="12"/>
+        <Fields Id="yaw" Type="Fixed"/>
+        <Fields Id="pitch" Type="Fixed"/>
+        <Fields Id="roll" Type="Fixed"/>
+        <Fields Id="scaleX" Type="Fixed"/>
+        <Fields Id="scaleY" Type="Fixed"/>
+        <Fields Id="scaleZ" Type="Fixed"/>
+        <Fields Id="tintColor" Type="Color"/>
+        <Fields Id="tintMultiplier" Type="Fixed"/>
+        <Fields Id="teamColorIndex" Type="Int"/>
+        <Instances Id="[Default]"/>
+        <Instances Id="0">
+            <GameLink GameLink="ZerusTree">
+                <Field Id="actorLink"/>
+            </GameLink>
+            <Fixed Fixed="23.7023">
+                <Field Id="posX"/>
+            </Fixed>
+            <Fixed Fixed="94.0671">
+                <Field Id="posY"/>
+            </Fixed>
+            <Fixed Fixed="-0.0002">
+                <Field Id="posZ"/>
+            </Fixed>
+            <Int Int="11">
+                <Field Id="variation"/>
+            </Int>
+            <Fixed Fixed="0.9001">
+                <Field Id="scaleX"/>
+            </Fixed>
+            <Fixed Fixed="0.9001">
+                <Field Id="scaleY"/>
+            </Fixed>
+            <Fixed Fixed="0.9001">
+                <Field Id="scaleZ"/>
+            </Fixed>
+            <Fixed Fixed="95.568518">
+                <Field Id="yaw"/>
+            </Fixed>
+            <Int Int="1792">
+                <Field Id="flags"/>
+            </Int>
+        </Instances>
+        <!-- ... -->
+    </CUser>
+```
+
+### Format: Galaxy script
+
+> `s2dood  -s "tdood-example1.SC2Map" -o "tdood-example1.SC2Map" -F galaxy`
 
 Data is exported as a `.galaxy` file. Which consists of one function that populates global array. Every element of an array is a struct that includes all relevant properties of a doodad.
 
@@ -122,3 +169,7 @@ gv__o[0].lv_flags = 0xd00;
 gv__oc = 16000;
 }
 ```
+
+> Why use this over `UserData` format?
+
+Because `UserData` API is simply slow. Any performance sensitive use-case of this tool would likely require transfering all entries from `UserData` to galaxy variables. This vastly improves the performance, by taking advantage of static linking within Galaxy. We're avoiding overhead that would come from using `UserData` API to query data dynamically.

@@ -8,8 +8,11 @@
         "removeComments": false,
         "strict": true,
         "strictNullChecks": false,
-        "target": "es6",
-        "sourceMap": true
+        "target": "es2018",
+        "sourceMap": true,
+        "lib": [
+            "es2018"
+        ]
     },
     "include": [
         "src/**/*"

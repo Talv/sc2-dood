@@ -1,6 +1,6 @@
 {
     "name": "s2dood",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "StarCraft II terrain Objects file parser and exporter.",
     "license": "MIT",
     "author": {
@@ -19,23 +19,19 @@
     },
     "scripts": {
         "compile:watch": "tsc -w -p ./",
-        "nexe:win32": "nexe --verbose -n s2dood -t win32-x86-9.9.0 -i lib/cli.js -o build/s2dood.exe"
+        "nexe:windows": "nexe --verbose -n s2dood -t windows-x86-10.16.0 -i lib/cli.js -o build/s2dood.exe"
     },
     "dependencies": {
-        "cli-spinner": "^0.2.8",
-        "commander": "^2.15.1",
+        "commander": "^4.0.0",
+        "fs-extra": "^8.1.0",
         "sax": "^1.2.4",
-        "winston": "^2.4.0",
-        "xml2js": "^0.4.19"
+        "winston": "^3.2.1"
     },
     "devDependencies": {
-        "@types/cli-spinner": "^0.2.0",
-        "@types/node": "^9.6.14",
+        "@types/fs-extra": "^8.0.1",
+        "@types/node": "^10.17.3",
         "@types/sax": "^1.0.0",
-        "@types/winston": "^2.3.7",
-        "@types/xml2js": "^0.4.2",
         "source-map-support": "^0.5.3",
-        "ts-node": "^4.1.0",
-        "typescript": "^2.7.1"
+        "typescript": "^3.6.4"
     }
 }
