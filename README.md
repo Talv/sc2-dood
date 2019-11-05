@@ -35,13 +35,25 @@ Options:
   -h, --help                  output usage information
 ```
 
-## Example map
+## Example maps
 
-Download [tdood-example1](https://github.com/Talv/sc2-dood/releases/download/v0.3.0/tdood-example1.zip)
+### Example 1 - basic
+
+Download [tdood-example1](https://github.com/Talv/sc2-dood/releases/download/v0.3.0/s2dood-example1.zip) and launch example map:
 
 - Press <kbd>Z</kbd> to clear all preplaced doodads.
 - Press <kbd>X</kbd> recreate actors respecting all properties from previously dumped data
-- Use wrapper batch file `s2dood-run.bat`, to re-read data from `Objects` file of a map
+
+Use wrapper batch file `s2dood-run.bat` to regenerate data.
+
+### Example 2 - multiple maps
+
+Download [tdood-example2](https://github.com/Talv/sc2-dood/releases/download/v0.3.0/s2dood-example2.zip) and launch example map:
+
+- Press <kbd>1</kbd> to loadup doodads from `src1.SC2Map`
+- Press <kbd>2</kbd> to loadup doodads from `src2.SC2Map`
+
+Use wrapper batch file `s2dood-multiple-g.bat` to regenerate data.
 
 ---
 
